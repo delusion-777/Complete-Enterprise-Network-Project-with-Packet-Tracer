@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan-Go Pro - Smart Sustainable Agriculture Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=-apple-system:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <!-- Weather Animation Layer -->
+    <div id="weatherLayer" class="weather-layer">
+        <canvas id="weatherCanvas"></canvas>
+    </div>
+
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <select id="languageSelect" onchange="changeLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="bn">বাংলা</option>
+            <option value="te">తెలుగు</option>
+            <option value="ta">தமிழ்</option>
+            <option value="mr">मराठी</option>
+        </select>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">🌾</div>
+                    <div class="logo-text">
+                        <h1 data-translate="appName">Kishan Mitra</h1>
+                        <p data-translate="appSubtitle">Sustainable Farming Academy</p>
+                    </div>
+                </div>
+                <div class="stats-section">
+                    <div class="stat-card">
+                        <i data-lucide="trophy"></i>
+                        <span data-translate="level">Level</span> <span id="playerLevel">1</span>
+                    </div>
+                    <div class="stat-card coins">
+                        <span class="coin-icon">$</span>
+                        <span id="playerCoins">100</span>
+                        <span data-translate="coins">coins</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Navigation Tabs -->
+            <div class="tabs-navigation">
+                <button class="tab-button active" onclick="showTab('dashboard')" data-translate="dashboard">
+                    <i data-lucide="home"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="tab-button" onclick="showTab('farm-game')" data-translate="farmGame">
+                    <i data-lucide="gamepad-2"></i>
+                    <span>1D Farm</span>
+                </button>
+                <button class="tab-button" onclick="showTab('store')" data-translate="store">
+                    <i data-lucide="store"></i>
+                    <span>Store</span>
+                </button>
+                <button class="tab-button" onclick="showTab('challenges')" data-translate="challenges">
+                    <i data-lucide="target"></i>
+                    <span>Challenges</span>
+                </button>
+                <button class="tab-button" onclick="showTab('achievements')" data-translate="achievements">
+                    <i data-lucide="trophy"></i>
+                    <span>Awards</span>
+                </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="tab-content active" id="dashboard">
+                <div class="dashboard">
+                    <div class="welcome-section">
+                        <h2 data-translate="welcomeTitle">Welcome to Kishan Mitra</h2>
+                        <p data-translate="welcomeDesc">Your journey to sustainable farming excellence begins here</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-icon">🌱</div>
+                            <div class="stat-info">
+                                <h3 id="totalCrops">0</h3>
+                                <p data-translate="cropsGrown">Crops Grown</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">💧</div>
+                            <div class="stat-info">
+                                <h3 id="waterUsed">0L</h3>
+                                <p data-translate="waterSaved">Water Saved</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-info">
+                                <h3 id="challengesComplete">0</h3>
+                                <p data-translate="challengesCompleted">Challenges Done</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-info">
+                                <h3 id="experiencePoints">0</h3>
+                                <p data-translate="experienceEarned">XP Earned</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="weather-info">
+                        <h3 data-translate="currentWeather">Current Weather</h3>
+                        <div class="weather-display">
+                            <div class="weather-icon" id="weatherIcon">☀️</div>
+                            <div class="weather-details">
+                                <p id="weatherCondition" data-translate="sunny">Sunny</p>
+                                <p id="weatherTemp">28°C</p>
+                                <p id="weatherHumidity" data-translate="humidity">Humidity: 65%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1D Farm Game -->
+            <div class="tab-content" id="farm-game">
+                <div class="farm-game">
+                    <div class="game-header">
+                        <h2 data-translate="farmSimulator">1D Farm Simulator</h2>
+                        <p data-translate="farmDesc">Plant, water, and harvest crops in realistic weather conditions</p>
+                        
+                        <div class="game-controls">
+                            <div class="tool-selector">
+                                <button class="tool-btn active" onclick="selectTool('plant')" data-translate="plant">
+                                    🌱 Plant
+                                </button>
+                                <button class="tool-btn" onclick="selectTool('water')" data-translate="water">
+                                    💧 Water
+                                </button>
+                                <button class="tool-btn" onclick="selectTool('harvest')" data-translate="harvest">
+                                    🌾 Harvest
+                                </button>
+                            </div>
+                            
+                            <div class="crop-selector" id="cropSelector">
+                                <select id="selectedCrop" onchange="updateCropSelection()">
+                                    <option value="rice">🌾 Rice</option>
+                                    <option value="wheat">🌽 Wheat</option>
+                                    <option value="tomato">🍅 Tomato</option>
+                                    <option value="chili">🌶️ Chili</option>
+                                    <option value="cotton">🤍 Cotton</option>
+                                    <option value="sugarcane">🎋 Sugarcane</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1D Farm Field -->
+                    <div class="farm-field">
+                        <div class="field-row" id="farmRow">
+                            <!-- Farm plots will be generated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Game Stats -->
+                    <div class="game-stats">
+                        <div class="stat">
+                            <span data-translate="waterLevel">Water Level:</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="waterProgress" style="width: 100%"></div>
+                            </div>
+                            <span id="waterPercentage">100%</span>
+                        </div>
+                        
+                        <div class="stat">
+                            <span data-translate="season">Season:</span>
+                            <span id="currentSeason" data-translate="spring">Spring</span>
+                            <span id="seasonIcon">🌸</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Store -->
+            <div class="tab-content" id="store">
+                <div class="store">
+                    <div class="store-header">
+                        <h2 data-translate="marketplace">Kishan Mitra Marketplace</h2>
+                        <p data-translate="marketplaceDesc">Exchange coins for premium farming equipment and government subsidized items</p>
+                    </div>
+
+                    <div class="store-categories">
+                        <button class="category-btn active" onclick="showStoreCategory('tools')" data-translate="tools">
+                            🛠️ Tools
+                        </button>
+                        <button class="category-btn" onclick="showStoreCategory('seeds')" data-translate="seeds">
+                            🌱 Premium Seeds
+                        </button>
+                        <button class="category-btn" onclick="showStoreCategory('fertilizers')" data-translate="fertilizers">
+                            🧪 Bio Fertilizers
+                        </button>
+                        <button class="category-btn" onclick="showStoreCategory('government')" data-translate="government">
+                            🏛️ Govt Schemes
+                        </button>
+                    </div>
+
+                    <div class="store-items" id="storeItems">
+                        <!-- Store items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Challenges -->
+            <div class="tab-content" id="challenges">
+                <div class="challenges">
+                    <h2 data-translate="farmingChallenges">Farming Challenges</h2>
+                    <p data-translate="challengesDesc">Complete challenges to earn XP and coins</p>
+                    
+                    <div class="challenges-grid" id="challengesList">
+                        <!-- Challenges will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="tab-content" id="achievements">
+                <div class="achievements">
+                    <h2 data-translate="yourAchievements">Your Achievements</h2>
+                    <p data-translate="achievementsDesc">Milestones you've unlocked on your farming journey</p>
+                    
+                    <div class="achievements-grid" id="achievementsList">
+                        <div class="no-achievements" id="noAchievements">
+                            <div class="achievement-icon">🏆</div>
+                            <h3 data-translate="noAchievementsYet">No achievements yet</h3>
+                            <p data-translate="startJourney">Start your farming journey to unlock achievements!</p>
+                            <button class="btn-primary" onclick="showTab('challenges')" data-translate="beginJourney">
+                                Begin Your Journey
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="translations.js"></script>
+    <script src="weather.js"></script>
+    <script src="farm-game.js"></script>
+    <script src="store.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
